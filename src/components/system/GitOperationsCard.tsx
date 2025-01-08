@@ -79,13 +79,15 @@ const GitOperationsCard = () => {
       setIsProcessing(true);
       setProgress(10);
       setCurrentOperation('Initializing git operation...');
-      await logOperation('started', 'Starting Git push operation');
       
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
+      // Get the current session
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      if (sessionError || !session) {
         throw new Error('No active session');
       }
 
+      await logOperation('started', 'Starting Git push operation');
+      
       setProgress(30);
       setCurrentOperation('Authenticating with GitHub...');
 
@@ -105,10 +107,14 @@ const GitOperationsCard = () => {
       setProgress(50);
       setCurrentOperation('Preparing to push changes...');
 
+      // Pass the session token to the edge function
       const { data, error } = await supabase.functions.invoke('git-operations', {
         body: {
           branch: 'main',
           commitMessage: 'Force commit: Pushing all files to master'
+        },
+        headers: {
+          Authorization: `Bearer ${session.access_token}`
         }
       });
 
