@@ -35,9 +35,9 @@ export function useAuthSession() {
       if (error) throw error;
       console.log('Signed out from Supabase');
 
-      // Force navigation to login with replace to prevent back button issues
-      navigate('/login', { replace: true });
-      console.log('Navigated to login page');
+      // Navigate to login page
+      window.location.href = '/login';
+      console.log('Redirecting to login page');
       
     } catch (error: any) {
       console.error('Error during sign out:', error);
@@ -71,7 +71,7 @@ export function useAuthSession() {
         console.error('Session initialization error:', error);
         if (mounted) {
           setSession(null);
-          navigate('/login', { replace: true });
+          window.location.href = '/login';
         }
       } finally {
         if (mounted) {
@@ -91,7 +91,7 @@ export function useAuthSession() {
         await queryClient.clear();
         localStorage.clear();
         setSession(null);
-        navigate('/login', { replace: true });
+        window.location.href = '/login';
         return;
       }
 
