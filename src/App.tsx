@@ -4,7 +4,8 @@ import { useAuthSession } from "@/hooks/useAuthSession";
 import ProtectedRoutes from "@/components/routing/ProtectedRoutes";
 import { BrowserRouter } from "react-router-dom";
 
-function App() {
+// New component to handle auth logic within Router context
+const AuthenticatedApp = () => {
   const { session, loading } = useAuthSession();
 
   if (loading) {
@@ -15,9 +16,13 @@ function App() {
     );
   }
 
+  return <ProtectedRoutes session={session} />;
+};
+
+function App() {
   return (
     <BrowserRouter basename="/">
-      <ProtectedRoutes session={session} />
+      <AuthenticatedApp />
       <Toaster />
     </BrowserRouter>
   );
