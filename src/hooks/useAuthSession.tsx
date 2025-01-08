@@ -3,23 +3,40 @@ import { Session } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 
 export function useAuthSession() {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const handleSignOut = async () => {
     try {
       setLoading(true);
-      await Promise.all([
-        queryClient.resetQueries(),
-        queryClient.clear(),
-        localStorage.clear(),
-        supabase.auth.signOut()
-      ]);
+      console.log('Starting sign out process...');
+      
+      // First clear all queries and cache
+      await queryClient.resetQueries();
+      await queryClient.clear();
+      console.log('Query cache cleared');
+
+      // Clear local storage
+      localStorage.clear();
+      console.log('Local storage cleared');
+
+      // Sign out from Supabase
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      console.log('Signed out from Supabase');
+
+      // Reset session state
       setSession(null);
+      
+      // Force navigation to login
+      navigate('/login', { replace: true });
+      
     } catch (error: any) {
       console.error('Error during sign out:', error);
       toast({
@@ -66,7 +83,12 @@ export function useAuthSession() {
       console.log('Auth state changed:', event, currentSession?.user?.id);
       
       if (event === 'SIGNED_OUT') {
-        await handleSignOut();
+        // Clear everything on sign out
+        await queryClient.resetQueries();
+        await queryClient.clear();
+        localStorage.clear();
+        setSession(null);
+        navigate('/login', { replace: true });
         return;
       }
 
@@ -84,7 +106,7 @@ export function useAuthSession() {
       mounted = false;
       subscription.unsubscribe();
     };
-  }, [queryClient, toast]);
+  }, [queryClient, toast, navigate]);
 
   return { session, loading, handleSignOut };
 }
