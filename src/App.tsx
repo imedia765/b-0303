@@ -2,6 +2,7 @@ import { Loader2 } from "lucide-react";
 import { Toaster } from "@/components/ui/toaster";
 import { useAuthSession } from "@/hooks/useAuthSession";
 import ProtectedRoutes from "@/components/routing/ProtectedRoutes";
+import { BrowserRouter } from "react-router-dom";
 
 function App() {
   const { session, loading } = useAuthSession();
@@ -15,10 +16,10 @@ function App() {
   }
 
   return (
-    <>
+    <BrowserRouter basename="/">
       <ProtectedRoutes session={session} />
       <Toaster />
-    </>
+    </BrowserRouter>
   );
 }
 

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Index from "@/pages/Index";
 import Login from "@/pages/Login";
 import { Session } from "@supabase/supabase-js";
@@ -78,11 +78,7 @@ const AuthWrapper = ({ session }: { session: Session | null }) => {
 };
 
 const ProtectedRoutes = ({ session }: ProtectedRoutesProps) => {
-  return (
-    <BrowserRouter basename="/">
-      <AuthWrapper session={session} />
-    </BrowserRouter>
-  );
+  return <AuthWrapper session={session} />;
 };
 
 export default ProtectedRoutes;
