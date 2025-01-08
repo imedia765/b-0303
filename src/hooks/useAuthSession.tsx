@@ -26,16 +26,18 @@ export function useAuthSession() {
       localStorage.clear();
       console.log('Local storage cleared');
 
+      // Reset session state before signing out
+      setSession(null);
+      console.log('Session state reset');
+
       // Sign out from Supabase
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
       console.log('Signed out from Supabase');
 
-      // Reset session state
-      setSession(null);
-      
-      // Force navigation to login
+      // Force navigation to login with replace to prevent back button issues
       navigate('/login', { replace: true });
+      console.log('Navigated to login page');
       
     } catch (error: any) {
       console.error('Error during sign out:', error);
@@ -68,7 +70,8 @@ export function useAuthSession() {
       } catch (error: any) {
         console.error('Session initialization error:', error);
         if (mounted) {
-          await handleSignOut();
+          setSession(null);
+          navigate('/login', { replace: true });
         }
       } finally {
         if (mounted) {

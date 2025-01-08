@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Index from "@/pages/Index";
 import Login from "@/pages/Login";
 import { Session } from "@supabase/supabase-js";
@@ -11,22 +11,7 @@ interface ProtectedRoutesProps {
 }
 
 const AuthWrapper = ({ session }: { session: Session | null }) => {
-  const navigate = useNavigate();
   const { toast } = useToast();
-
-  useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, currentSession) => {
-      if (event === 'SIGNED_OUT') {
-        navigate('/login', { replace: true });
-      } else if (event === 'SIGNED_IN') {
-        navigate('/', { replace: true });
-      }
-    });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [navigate]);
 
   useEffect(() => {
     const handleError = (event: ErrorEvent) => {
