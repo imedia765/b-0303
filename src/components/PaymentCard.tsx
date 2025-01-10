@@ -83,18 +83,21 @@ const PaymentCard = ({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Annual Payment Section */}
         <div className="p-6 glass-card rounded-xl border border-dashboard-highlight/20 hover:border-dashboard-highlight/40 transition-all duration-300 shadow-lg backdrop-blur-sm">
-          <h3 className="text-xl font-semibold text-white mb-6">Annual Payment</h3>
-          <div className="space-y-6">
+          <h3 className="text-xl font-semibold text-white mb-8">Annual Payment</h3>
+          <div className="space-y-8">
             <div className="flex items-start justify-between">
-              <div className="space-y-4">
-                <p className="text-4xl font-bold text-dashboard-accent1">£40</p>
+              <div className="space-y-6">
+                <div className="space-y-2">
+                  <p className="text-4xl font-bold text-dashboard-accent1">£40</p>
+                  <p className="text-sm text-dashboard-text/70">Annual membership fee</p>
+                </div>
                 <PaymentDueDate 
                   dueDate={annualPaymentDueDate} 
                   color="text-dashboard-accent1"
                   statusInfo={getPaymentStatusInfo(annualPaymentDueDate)}
                 />
               </div>
-              <div className="flex flex-col items-end space-y-3">
+              <div className="flex flex-col items-end space-y-4">
                 <PaymentStatus 
                   status={annualPaymentStatus} 
                   icon={getStatusIcon(annualPaymentStatus)}
@@ -111,15 +114,20 @@ const PaymentCard = ({
               </div>
             </div>
             {lastAnnualPaymentDate && (
-              <div className="pt-4 border-t border-dashboard-cardBorder/30">
-                <p className="text-sm text-dashboard-text/80 font-medium mb-1">
-                  Last payment: {formatDate(lastAnnualPaymentDate)}
+              <div className="pt-4 mt-4 border-t border-dashboard-cardBorder/30">
+                <p className="text-sm font-medium mb-2 text-dashboard-text/90">
+                  Last payment details
                 </p>
-                {lastAnnualPaymentAmount && (
-                  <p className="text-sm text-emerald-400 font-semibold">
-                    Amount: £{lastAnnualPaymentAmount}
+                <div className="space-y-1">
+                  <p className="text-sm text-dashboard-text/80">
+                    Date: {formatDate(lastAnnualPaymentDate)}
                   </p>
-                )}
+                  {lastAnnualPaymentAmount && (
+                    <p className="text-sm text-emerald-400 font-medium">
+                      Amount paid: £{lastAnnualPaymentAmount}
+                    </p>
+                  )}
+                </div>
               </div>
             )}
           </div>
@@ -127,20 +135,23 @@ const PaymentCard = ({
 
         {/* Emergency Collection Section */}
         <div className="p-6 glass-card rounded-xl border border-dashboard-highlight/20 hover:border-dashboard-highlight/40 transition-all duration-300 shadow-lg backdrop-blur-sm">
-          <h3 className="text-xl font-semibold text-white mb-6">Emergency Collection</h3>
-          <div className="space-y-6">
+          <h3 className="text-xl font-semibold text-white mb-8">Emergency Collection</h3>
+          <div className="space-y-8">
             <div className="flex items-start justify-between">
-              <div className="space-y-4">
-                <p className="text-4xl font-bold text-dashboard-accent1">
-                  £{emergencyCollectionAmount}
-                </p>
+              <div className="space-y-6">
+                <div className="space-y-2">
+                  <p className="text-4xl font-bold text-dashboard-accent1">
+                    £{emergencyCollectionAmount}
+                  </p>
+                  <p className="text-sm text-dashboard-text/70">One-time payment</p>
+                </div>
                 <PaymentDueDate 
                   dueDate={emergencyCollectionDueDate}
                   color="text-dashboard-accent1"
                   statusInfo={getPaymentStatusInfo(emergencyCollectionDueDate)}
                 />
               </div>
-              <div className="flex flex-col items-end space-y-3">
+              <div className="flex flex-col items-end space-y-4">
                 <PaymentStatus 
                   status={emergencyCollectionStatus} 
                   icon={getStatusIcon(emergencyCollectionStatus)}
@@ -157,23 +168,28 @@ const PaymentCard = ({
               </div>
             </div>
             {lastEmergencyPaymentDate && (
-              <div className="pt-4 border-t border-dashboard-cardBorder/30">
-                <p className="text-sm text-dashboard-text/80 font-medium mb-1">
-                  Last payment: {formatDate(lastEmergencyPaymentDate)}
+              <div className="pt-4 mt-4 border-t border-dashboard-cardBorder/30">
+                <p className="text-sm font-medium mb-2 text-dashboard-text/90">
+                  Last payment details
                 </p>
-                {lastEmergencyPaymentAmount && (
-                  <p className="text-sm text-emerald-400 font-semibold">
-                    Amount: £{lastEmergencyPaymentAmount}
+                <div className="space-y-1">
+                  <p className="text-sm text-dashboard-text/80">
+                    Date: {formatDate(lastEmergencyPaymentDate)}
                   </p>
-                )}
+                  {lastEmergencyPaymentAmount && (
+                    <p className="text-sm text-emerald-400 font-medium">
+                      Amount paid: £{lastEmergencyPaymentAmount}
+                    </p>
+                  )}
+                </div>
               </div>
             )}
-            <div className="text-sm text-dashboard-text/80 font-medium">
+            <div className="text-sm text-dashboard-text/80">
               {emergencyCollectionStatus === 'completed' 
                 ? 'Payment completed' 
                 : (
-                  <div className="space-y-1">
-                    <p>Payment {emergencyCollectionStatus}</p>
+                  <div className="space-y-1 pt-4 border-t border-dashboard-cardBorder/30">
+                    <p className="font-medium text-dashboard-text/90">Payment {emergencyCollectionStatus}</p>
                     <p className="text-dashboard-muted">
                       {emergencyCollectionStatus === 'overdue'
                         ? 'Emergency collection payment is overdue'
