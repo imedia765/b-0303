@@ -78,15 +78,28 @@ const PaymentCard = ({
     }
   };
 
+  const renderPendingMessage = (paymentType: string) => {
+    return (
+      <div className="mt-4 p-4 rounded-lg bg-yellow-500/10 border border-yellow-500/20">
+        <p className="text-yellow-400 text-sm font-medium">
+          Thank you for your {paymentType} payment submission
+        </p>
+        <p className="text-dashboard-text/70 text-xs mt-1">
+          Your payment is being reviewed and will be processed shortly
+        </p>
+      </div>
+    );
+  };
+
   return (
     <Card className="p-8 bg-dashboard-dark border border-dashboard-cardBorder">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Annual Payment Section */}
         <div className="p-6 glass-card rounded-xl border border-dashboard-highlight/20 hover:border-dashboard-highlight/40 transition-all duration-300 shadow-lg backdrop-blur-sm">
           <h3 className="text-xl font-semibold text-white mb-8">Annual Payment</h3>
-          <div className="space-y-8">
+          <div className="space-y-6">
             <div className="flex items-start justify-between">
-              <div className="space-y-6">
+              <div className="space-y-4">
                 <div className="space-y-2">
                   <p className="text-4xl font-bold text-dashboard-accent1">£40</p>
                   <p className="text-sm text-dashboard-text/70">Annual membership fee</p>
@@ -113,6 +126,7 @@ const PaymentCard = ({
                 )}
               </div>
             </div>
+            {annualPaymentStatus === 'pending' && renderPendingMessage('annual')}
             {lastAnnualPaymentDate && (
               <div className="pt-4 mt-4 border-t border-dashboard-cardBorder/30">
                 <p className="text-sm font-medium mb-2 text-dashboard-text/90">
@@ -136,9 +150,9 @@ const PaymentCard = ({
         {/* Emergency Collection Section */}
         <div className="p-6 glass-card rounded-xl border border-dashboard-highlight/20 hover:border-dashboard-highlight/40 transition-all duration-300 shadow-lg backdrop-blur-sm">
           <h3 className="text-xl font-semibold text-white mb-8">Emergency Collection</h3>
-          <div className="space-y-8">
+          <div className="space-y-6">
             <div className="flex items-start justify-between">
-              <div className="space-y-6">
+              <div className="space-y-4">
                 <div className="space-y-2">
                   <p className="text-4xl font-bold text-dashboard-accent1">
                     £{emergencyCollectionAmount}
@@ -167,6 +181,7 @@ const PaymentCard = ({
                 )}
               </div>
             </div>
+            {emergencyCollectionStatus === 'pending' && renderPendingMessage('emergency')}
             {lastEmergencyPaymentDate && (
               <div className="pt-4 mt-4 border-t border-dashboard-cardBorder/30">
                 <p className="text-sm font-medium mb-2 text-dashboard-text/90">
@@ -184,20 +199,6 @@ const PaymentCard = ({
                 </div>
               </div>
             )}
-            <div className="text-sm text-dashboard-text/80">
-              {emergencyCollectionStatus === 'completed' 
-                ? 'Payment completed' 
-                : (
-                  <div className="space-y-1 pt-4 border-t border-dashboard-cardBorder/30">
-                    <p className="font-medium text-dashboard-text/90">Payment {emergencyCollectionStatus}</p>
-                    <p className="text-dashboard-muted">
-                      {emergencyCollectionStatus === 'overdue'
-                        ? 'Emergency collection payment is overdue'
-                        : 'One-time emergency collection payment required'}
-                    </p>
-                  </div>
-                )}
-            </div>
           </div>
         </div>
       </div>
