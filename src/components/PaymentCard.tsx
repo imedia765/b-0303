@@ -79,105 +79,109 @@ const PaymentCard = ({
   };
 
   return (
-    <Card className="dashboard-card">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <Card className="p-8 bg-dashboard-dark border border-dashboard-cardBorder">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Annual Payment Section */}
-        <div className="p-6 glass-card rounded-lg border border-dashboard-highlight/20 hover:border-dashboard-highlight/40 transition-colors">
-          <h3 className="text-xl font-semibold text-dashboard-highlight mb-4">Annual Payment</h3>
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <p className="text-3xl font-bold text-dashboard-accent2">£40</p>
-              <PaymentDueDate 
-                dueDate={annualPaymentDueDate} 
-                color="text-dashboard-highlight"
-                statusInfo={getPaymentStatusInfo(annualPaymentDueDate)}
-              />
-              {lastAnnualPaymentDate && (
-                <div className="mt-3">
-                  <p className="text-sm text-dashboard-text font-medium">
-                    Last payment: {formatDate(lastAnnualPaymentDate)}
+        <div className="p-6 glass-card rounded-xl border border-dashboard-highlight/20 hover:border-dashboard-highlight/40 transition-all duration-300 shadow-lg backdrop-blur-sm">
+          <h3 className="text-xl font-semibold text-white mb-6">Annual Payment</h3>
+          <div className="space-y-6">
+            <div className="flex items-start justify-between">
+              <div className="space-y-4">
+                <p className="text-4xl font-bold text-dashboard-accent1">£40</p>
+                <PaymentDueDate 
+                  dueDate={annualPaymentDueDate} 
+                  color="text-dashboard-accent1"
+                  statusInfo={getPaymentStatusInfo(annualPaymentDueDate)}
+                />
+              </div>
+              <div className="flex flex-col items-end space-y-3">
+                <PaymentStatus 
+                  status={annualPaymentStatus} 
+                  icon={getStatusIcon(annualPaymentStatus)}
+                />
+                {getPaymentStatusInfo(annualPaymentDueDate).isOverdue && (
+                  <span className={`text-xs px-3 py-1.5 rounded-full font-medium ${
+                    getPaymentStatusInfo(annualPaymentDueDate).isGracePeriod 
+                      ? 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20' 
+                      : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+                  }`}>
+                    {getPaymentStatusInfo(annualPaymentDueDate).message}
+                  </span>
+                )}
+              </div>
+            </div>
+            {lastAnnualPaymentDate && (
+              <div className="pt-4 border-t border-dashboard-cardBorder/30">
+                <p className="text-sm text-dashboard-text/80 font-medium mb-1">
+                  Last payment: {formatDate(lastAnnualPaymentDate)}
+                </p>
+                {lastAnnualPaymentAmount && (
+                  <p className="text-sm text-emerald-400 font-semibold">
+                    Amount: £{lastAnnualPaymentAmount}
                   </p>
-                  {lastAnnualPaymentAmount && (
-                    <p className="text-sm text-emerald-400 font-semibold">
-                      Amount: £{lastAnnualPaymentAmount}
-                    </p>
-                  )}
-                </div>
-              )}
-            </div>
-            <div className="flex flex-col items-end space-y-2">
-              <PaymentStatus 
-                status={annualPaymentStatus} 
-                icon={getStatusIcon(annualPaymentStatus)}
-              />
-              {getPaymentStatusInfo(annualPaymentDueDate).isOverdue && (
-                <span className={`text-xs px-2 py-1 rounded-full ${
-                  getPaymentStatusInfo(annualPaymentDueDate).isGracePeriod 
-                    ? 'bg-yellow-500/20 text-yellow-400' 
-                    : 'bg-rose-500/20 text-rose-400'
-                }`}>
-                  {getPaymentStatusInfo(annualPaymentDueDate).message}
-                </span>
-              )}
-            </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
 
         {/* Emergency Collection Section */}
-        <div className="p-6 glass-card rounded-lg border border-dashboard-highlight/20 hover:border-dashboard-highlight/40 transition-colors">
-          <h3 className="text-xl font-semibold text-dashboard-highlight mb-4">Emergency Collection</h3>
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <p className="text-3xl font-bold text-dashboard-accent2">
-                £{emergencyCollectionAmount}
-              </p>
-              <PaymentDueDate 
-                dueDate={emergencyCollectionDueDate}
-                color="text-dashboard-highlight"
-                statusInfo={getPaymentStatusInfo(emergencyCollectionDueDate)}
-              />
-              {lastEmergencyPaymentDate && (
-                <div className="mt-3">
-                  <p className="text-sm text-dashboard-text font-medium">
-                    Last payment: {formatDate(lastEmergencyPaymentDate)}
+        <div className="p-6 glass-card rounded-xl border border-dashboard-highlight/20 hover:border-dashboard-highlight/40 transition-all duration-300 shadow-lg backdrop-blur-sm">
+          <h3 className="text-xl font-semibold text-white mb-6">Emergency Collection</h3>
+          <div className="space-y-6">
+            <div className="flex items-start justify-between">
+              <div className="space-y-4">
+                <p className="text-4xl font-bold text-dashboard-accent1">
+                  £{emergencyCollectionAmount}
+                </p>
+                <PaymentDueDate 
+                  dueDate={emergencyCollectionDueDate}
+                  color="text-dashboard-accent1"
+                  statusInfo={getPaymentStatusInfo(emergencyCollectionDueDate)}
+                />
+              </div>
+              <div className="flex flex-col items-end space-y-3">
+                <PaymentStatus 
+                  status={emergencyCollectionStatus} 
+                  icon={getStatusIcon(emergencyCollectionStatus)}
+                />
+                {getPaymentStatusInfo(emergencyCollectionDueDate).isOverdue && (
+                  <span className={`text-xs px-3 py-1.5 rounded-full font-medium ${
+                    getPaymentStatusInfo(emergencyCollectionDueDate).isGracePeriod 
+                      ? 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20' 
+                      : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+                  }`}>
+                    {getPaymentStatusInfo(emergencyCollectionDueDate).message}
+                  </span>
+                )}
+              </div>
+            </div>
+            {lastEmergencyPaymentDate && (
+              <div className="pt-4 border-t border-dashboard-cardBorder/30">
+                <p className="text-sm text-dashboard-text/80 font-medium mb-1">
+                  Last payment: {formatDate(lastEmergencyPaymentDate)}
+                </p>
+                {lastEmergencyPaymentAmount && (
+                  <p className="text-sm text-emerald-400 font-semibold">
+                    Amount: £{lastEmergencyPaymentAmount}
                   </p>
-                  {lastEmergencyPaymentAmount && (
-                    <p className="text-sm text-emerald-400 font-semibold">
-                      Amount: £{lastEmergencyPaymentAmount}
+                )}
+              </div>
+            )}
+            <div className="text-sm text-dashboard-text/80 font-medium">
+              {emergencyCollectionStatus === 'completed' 
+                ? 'Payment completed' 
+                : (
+                  <div className="space-y-1">
+                    <p>Payment {emergencyCollectionStatus}</p>
+                    <p className="text-dashboard-muted">
+                      {emergencyCollectionStatus === 'overdue'
+                        ? 'Emergency collection payment is overdue'
+                        : 'One-time emergency collection payment required'}
                     </p>
-                  )}
-                </div>
-              )}
+                  </div>
+                )}
             </div>
-            <div className="flex flex-col items-end space-y-2">
-              <PaymentStatus 
-                status={emergencyCollectionStatus} 
-                icon={getStatusIcon(emergencyCollectionStatus)}
-              />
-              {getPaymentStatusInfo(emergencyCollectionDueDate).isOverdue && (
-                <span className={`text-xs px-2 py-1 rounded-full ${
-                  getPaymentStatusInfo(emergencyCollectionDueDate).isGracePeriod 
-                    ? 'bg-yellow-500/20 text-yellow-400' 
-                    : 'bg-rose-500/20 text-rose-400'
-                }`}>
-                  {getPaymentStatusInfo(emergencyCollectionDueDate).message}
-                </span>
-              )}
-            </div>
-          </div>
-          <div className="text-sm text-dashboard-text font-medium">
-            {emergencyCollectionStatus === 'completed' 
-              ? 'Payment completed' 
-              : (
-                <div className="space-y-1">
-                  <p>Payment {emergencyCollectionStatus}</p>
-                  <p className="text-dashboard-muted">
-                    {emergencyCollectionStatus === 'overdue'
-                      ? 'Emergency collection payment is overdue'
-                      : 'One-time emergency collection payment required'}
-                  </p>
-                </div>
-              )}
           </div>
         </div>
       </div>
